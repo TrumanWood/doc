@@ -1,7 +1,7 @@
 ---
 title: IDEA 快捷键设置
 date: 2022-11-02
-permalink: /ide/idea
+permalink: /ide/idea/001
 categories:
  - 工具
 tags:
