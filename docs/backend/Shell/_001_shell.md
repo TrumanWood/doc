@@ -112,46 +112,9 @@ ctrl + a（光标到最前）、e（光标到最后）、u、k、l（L快速清�
 
 - 特殊变量`$?`
 
-  - 0 ：表示上次命令执行 <font color="green">**成功**</font > 在后续编码中使用 `if`
+  - 0 ：表示上次命令执行 <font color="green">**成功**</font > 在后续编码中配合 `if`使用
 
   - 1~255 ：<font color="red">错误码</font>
-
-
-### 父子shell
-
-> `pstree `查看shell层级
-
-- 每次使用 bin/sh 会开启一个子shell执行，因此不保留当前的shell的变量，
-
-- shource 在当前shell环境加载脚本，因此会保留变量
-
-```sh
-## 编写一个脚本 make_vars.sh
-#!bin/bash
-name="张三"
-
-```
-
-测试`bin/sh`执行脚本
-
-```sh
-[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# name="王大"
-[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# echo name
-name
-[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# echo $name
-王大
-[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# sh make_vars.sh 
-[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# echo $name
-王大
-```
-
-测试`source` OR `.`执行脚本
-
-```sh
-[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# source make_vars.sh 
-[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# echo $name
-张三
-```
 
 ### 系统变量
 
@@ -212,9 +175,202 @@ name
   </template> 
 </RecoDemo>
 
+### 特殊状态变量
+
+> `man bash` 查找linux 中bash命令 ，搜索Special Parameters
+
+- `$?` ：上一次命令**执行状态**返回值，0：成功，1~255：错误码
+- `$$`：当前shell脚本的**进程号**
+- `$!`：**上次**<font color="red">后台</font>进程的**PID**
+- `$_`：取**上次**命令的**最后一个参数**
 
 
-## 0x5
+
+## 0x5 Shell子串
+
+### Shell内置的命令
+
+```sh
+echo  ## 输出，printf 会识别特殊字符，而echo不会
+eval  ## 将后边的命令以参数 传给eval
+exec  ## 不创建子进程，执行命令完后自动exit
+export
+read
+shift
+
+-n ## 不换行输出
+-e ## 解析字符串中的特殊字符
+```
+
+### Shell子串
+
+```sh
+## 返回变量值
+${变量}
+## 返回变量长度（字符串长度）
+${#变量}
+## 还有其他方式
+### 1. 统计行数
+echo $name |wc -l
+### 2. 统计所有行里面，最长行的字符数量（cat test.txt | wc -L 统计文本）
+echo $name |wc -L
+### 3. 
+expr length ${变量名}
+
+
+
+## 返回[start,end]的字符 ([0,length-1])
+${变量:start}
+## 返回[offset,length]的字符
+${变量:start:length}
+
+## word 可以是通配符（删除一个）
+## 从变量 开头 开始删除最短匹配的word子串
+${变量#word}
+## 从变量 开头 开始删除最长匹配的word子串
+${变量##word}
+## 从变量 结尾 删除最短匹配的word子串
+${变量%word}
+## 从变量 结尾 删除最长匹配的word子串
+${变量%%word}
+
+## 用String 替换第一个匹配的 Pattern
+${变量/pattern/string}
+## 用String 替换所有匹配的 pattern
+${变量//pattern/string}
+```
+
+综合demo
+
+```sh
+## 数据集
+[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# ll
+total 8
+-rw-r--r-- 1 root root 29 Mar  2 17:15 hello.sh
+-rw-r--r-- 1 root root 25 Mar  2 18:16 make_vars.sh
+-rw-r--r-- 1 root root  0 Mar  3 19:23 test_1_finished.log
+-rw-r--r-- 1 root root  0 Mar  3 19:23 test_1_finished.txt
+-rw-r--r-- 1 root root  0 Mar  3 19:23 test_2_finished.log
+-rw-r--r-- 1 root root  0 Mar  3 19:23 test_2_finished.txt
+-rw-r--r-- 1 root root  0 Mar  3 19:23 test_3_finished.log
+-rw-r--r-- 1 root root  0 Mar  3 19:23 test_3_finished.txt
+-rw-r--r-- 1 root root  0 Mar  3 19:23 test_4_finished.log
+-rw-r--r-- 1 root root  0 Mar  3 19:23 test_4_finished.txt
+-rw-r--r-- 1 root root  0 Mar  3 19:23 test_5_finished.log
+-rw-r--r-- 1 root root  0 Mar  3 19:23 test_5_finished.txt
+
+## 需求，将所有文档名中的_finished去掉
+for var in `ls *fin*`;do mv ${var} ${var//_finished/} ;done
+```
+
+
+
+### Shell 拓展变量
+
+> 一下情况都是对**变量值**的**判断**与**处理**
+
+```sh
+# 以下情况 param变量均为null
+
+## param==null 返回word字符串
+${param:-world}
+
+## param==null 则  param==word 并返回 word
+${param:=world}
+
+## param==null 则 word当做 stderr（error）信息输出，并返回 word
+${param:?world}
+
+## param==null 则什么都不做，否则返回word
+${param:+world}
+```
+
+综合demo
+
+```sh
+## 删除7天以上的数据
+find 目录 -name 文件名 -type 文件类型 -mtime +7 |xargs rm -f 
+
+## demo 
+
+find ${dir_path:="/data/mysql_bacl/log"} -name "*.tar.gz" -type -f -mtime +7 |xargs rm -f
+```
+
+## 0x6 父子shell
+
+> `pstree `查看shell层级 或者使用`ps -ef --forest`进行查看
+
+<img src="http://qiniu.forlzs.cn/mdimage-20230303202322415.png" alt="image-20230303202322415" style="zoom:80%;" />
+
+- 每次使用 **bash解释器** 会**开启**一个**子shell**执行，因此不保留当前的shell的变量
+
+- `shource` OR `.` 在**当前shell**环境加载脚本，因此会**保留变量**
+
+- `./script`指定shebang，通过解释器执行，也会开启子shell
+
+```sh
+## 编写一个脚本 make_vars.sh
+#!bin/bash
+name="张三"
+
+```
+
+测试`bin/sh`执行脚本
+
+```sh
+[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# name="王大"
+[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# echo name
+name
+[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# echo $name
+王大
+[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# sh make_vars.sh 
+[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# echo $name
+王大
+```
+
+测试`source` OR `.`执行脚本
+
+```sh
+[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# source make_vars.sh 
+[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# echo $name
+张三
+```
+
+### 开启子进程列表运行程序
+
+> 在脚本开发中，常使用子shell进行多进程的处理，以提升程序执行效率
+>
+> 如何开启？`(命令)`即可
+
+```sh
+## BASH_SUBSHELL 0 表示在父shell
+(pwd;(pwd;echo ${BASH_SUBSHELL}))
+
+## 执行结果
+[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]#  (pwd;(pwd;echo ${BASH_SUBSHELL}))
+/home/shellScript
+/home/shellScript
+2
+
+```
+
+### 内置、外置命令
+
+> 1. 内置命令：系统**启动时**就 入驻 内存，常驻内存，执行效率高，但是站资源（与shell是一体）`compgen -b`查看所有
+> 2. 外置命令：系统需要从磁盘中读取程序文件，再加入内存（懒加载）（一定会开启一个子进程执行）
+>
+> type 命令 可查看
+
+```sh
+## 内置
+[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# type cd
+cd is a shell builtin
+
+## 外置
+[root@iZ2vc301ekb4u2tkdhlgqgZ shellScript]# type docker
+docker is /usr/bin/docker
+
+```
 
 
 
