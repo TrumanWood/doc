@@ -4,7 +4,7 @@ date: 2023-03-01 13:59:20
 permalink: /sport
 sidebar: 'auto'
 categories:
- - 运动
+ - 户外
 tags:
 
 ---
