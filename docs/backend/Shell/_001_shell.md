@@ -1,12 +1,11 @@
 ---
 title: Shell脚本
-date: 2022-09-22 15:39:13
+date: 2023-03-2 23:37:33
 permalink: /backend/shell/001
 categories:
  - 后端
 tags:
    - shell
-  
 ---
 
 ## 0x1 Shell 脚本
