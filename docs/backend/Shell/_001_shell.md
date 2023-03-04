@@ -48,12 +48,34 @@ source hello.sh
 
 > 指定合适的解释器，执行脚本。可采用`cat /etc/shells`查看当前系统支持的shell
 
-- Bourne Shell（`#!/usr/bin/sh`或 `#!/bin/sh`）默认，可不写
+- Bourne Shell（`#!/usr/bin/sh`或 `#!/bin/sh`）默认，可不写（但是需要保持良好的编码习惯还是得写上）
 - Bourne Again Shell（`#!/bin/bash`）
 - C Shell（`#!/usr/bin/csh`）
 - K Shell（`#!/usr/bin/ksh`）
 - Shell for Root（`#!/sbin/sh`）
 - python（`#!/usr/bin/python`）
+
+### 注释
+
+```sh
+# 单行注释
+
+:<<EOF
+多行注释内容
+多行注释内容
+多行注释内容
+EOF
+```
+demo
+<RecoDemo :collapse="true">
+  <template slot="code-sh">
+    <<< @/docs/backend/shell/code/_001_0x2_comment_c.sh
+  </template>
+  <template slot="code-result">
+    <<< @/docs/backend/shell/code/_001_0x2_comment_r.sh
+  </template> 
+</RecoDemo>
+
 
 ## 0x3 Bash常用命令(特性)
 
