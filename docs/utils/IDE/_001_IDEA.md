@@ -109,19 +109,19 @@ tags:
 
 ```java
 public class Debug {
-  public static void main(String[] args) {
-    int[] arr = new int[]{1,2,3,4,5,6,7,8,9,10,11,12};
-    for (int i = 0; i < arr.length; i++) {
-      int target = arr[i];
-      System.out.println(target);
-   }
- }
+    public static void main(String[] args) {
+        int[] arr = new int[]{1,2,3,4,5,6,7,8,9,10,11,12};
+        for (int i = 0; i < arr.length; i++) {
+            int target = arr[i];
+            System.out.println(target);
+        }
+    }
 }
 ```
 
 我们需要一次性定位到 5 的位置；
 
-![停止到指定条件](./img/_001_idea.png)
+![停止到指定条件]("./img/_001_idea.png")
 
 ## 参考资料：
 
