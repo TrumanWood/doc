@@ -217,7 +217,7 @@ echo  ## 输出，printf 会识别特殊字符，而echo不会
 eval  ## 将后边的命令以参数 传给eval
 exec  ## 不创建子进程，执行命令完后自动exit
 export
-read
+read ## -p 接收用户输入信息  read -p 提示信息 接收变量
 shift
 
 -n ## 不换行输出
