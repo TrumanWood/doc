@@ -16,7 +16,8 @@ module.exports =
         ]
     },
     { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' },
-    
+    { text: 'about', link: '/about/', icon: 'reco-account' },
+
     // { text: '归档', link: '/archives.html', icon: 'reco-date' },
     // { text: '关于', link: '/about.html', icon: 'reco-account' },
 ]
