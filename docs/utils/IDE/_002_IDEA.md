@@ -1,6 +1,6 @@
 ---
 title: IDEA提升编码速度
-date: 2023-03--03 10:18:59
+date: 2023-03-03 10:18:59
 permalink: /utils/idea/002
 categories:
   - 工具
