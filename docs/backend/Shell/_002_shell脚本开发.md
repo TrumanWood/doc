@@ -275,3 +275,18 @@ function sayHello{
 syaHello
 ```
 
+### 接收控制台参数
+
+> `read (选项) 变量名`
+
+- -p：指定读取值时的提示符
+- -t：指定读取值时等待的时间（秒），如果没有在指定时间内输入，就不再等待了。
+
+```sh
+read -p "请输入一个数num1=" NUM1
+echo "你输入num1的值是：$NUM1"
+
+read -t 10 -p "请在10秒内输入一个数num2=" NUM2
+echo "你输入num2的值是：$NUM2"
+```
+
