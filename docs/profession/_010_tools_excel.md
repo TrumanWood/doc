@@ -1,3 +1,12 @@
+---
+title: Excel操作
+date: 2023-03-10 10:59:51
+permalink: /profession/tools_excel
+categories:
+  - 后端
+tags:
+  - 
+---
 # 与Excel相关的需求
 ## 导出2亿条数据 <a href="quote-1" name="quote-1-1">[1]</a>
 ### 关于Excel的基本了解
