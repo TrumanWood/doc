@@ -1,3 +1,12 @@
+---
+title: 为什么要使用RabbitMQ
+date: 2023-01-28
+permalink: /backend/linux/100
+categories:
+  - 后端
+tags:
+  - Linux
+---
 ## 找回密码
 
 1. 开机时一直按着shift键，进入像是windows bios界面一样的界面，选择`Ubuntu高级选项`
