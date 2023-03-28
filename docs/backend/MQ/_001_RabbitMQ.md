@@ -1,3 +1,12 @@
+---
+title: 为什么要使用RabbitMQ
+date: 2023-01-28
+permalink: /backend/mq/rabbitmq/000
+categories:
+  - 后端
+tags:
+  - MQ
+---
 ## **为什么要使用RabbitMQ？**
 
 **1.解耦**
