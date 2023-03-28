@@ -48,3 +48,13 @@ NETMASK=255.255.255.0
 <img src="http://qiniu.forlzs.cn/mdimage-20230328150854832.png" alt="image-20230328150854832" style="zoom: 67%;" />
 
 图1-1
+
+## 防火墙
+
+```sh
+## 查看防火墙状态
+systemctl status firewalld.service
+## 关闭防火墙
+systemctl stop firewalld.service
+```
+
