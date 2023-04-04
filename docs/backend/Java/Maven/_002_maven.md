@@ -3,7 +3,7 @@ title: Maven拉包原理
 date: 2023-04-04 08:51:20
 permalink: /java/maven/002
 categories:
-  - Java
+  - 后端
 tags:
   - Maven
 ---
